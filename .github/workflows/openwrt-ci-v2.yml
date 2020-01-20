@@ -71,8 +71,8 @@ jobs:
 
       - name: Costom configure file
         run: |
-          rm -f ./.config*
-          touch ./.config
+          # rm -f ./.config*
+          # touch ./.config
 
           #
           # ========================固件定制部分========================
@@ -116,8 +116,8 @@ jobs:
 
           # 设置固件大小:
           cat >> .config <<EOF
-          CONFIG_TARGET_KERNEL_PARTSIZE=30
-          CONFIG_TARGET_ROOTFS_PARTSIZE=219
+          CONFIG_TARGET_KERNEL_PARTSIZE=32
+          CONFIG_TARGET_ROOTFS_PARTSIZE=256
           EOF
 
           # 固件压缩:
