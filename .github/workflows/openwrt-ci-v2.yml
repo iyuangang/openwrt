@@ -59,7 +59,7 @@ jobs:
           cd package
           mkdir openwrt-packages
           cd openwrt-packages
-          git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
+          # git clone https://github.com/openwrt-develop/luci-theme-atmaterial.git
           # git clone https://github.com/KFERMercer/luci-app-serverchan
           # git clone https://github.com/rosywrt/luci-theme-rosy
           # git clone https://github.com/Ameykyl/luci-app-koolproxyR
@@ -157,7 +157,7 @@ jobs:
 
           # 常用LuCI插件选择:
           cat >> .config <<EOF
-          # CONFIG_PACKAGE_luci-app-adbyby-plus=y
+          CONFIG_PACKAGE_luci-app-adbyby-plus=y
           # CONFIG_PACKAGE_luci-app-aria2=y
           # CONFIG_PACKAGE_luci-app-baidupcs-web=y
           # CONFIG_PACKAGE_luci-app-docker=y
@@ -170,7 +170,7 @@ jobs:
           # CONFIG_PACKAGE_luci-app-qbittorrent=y
           CONFIG_PACKAGE_luci=y
           CONFIG_PACKAGE_luci-app-ssr-plus=y
-          # CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Kcptun=y
+          CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Kcptun=y
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks=y
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Server=y
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_ShadowsocksR_Socks=y
@@ -189,7 +189,7 @@ jobs:
           cat >> .config <<EOF
           # CONFIG_PACKAGE_luci-theme-argon=y
           # CONFIG_PACKAGE_luci-theme-netgear=y
-          CONFIG_PACKAGE_luci-theme-atmaterial=y
+          # CONFIG_PACKAGE_luci-theme-atmaterial=y
           # CONFIG_PACKAGE_luci-theme-rosy=y
           EOF
 
@@ -201,7 +201,7 @@ jobs:
           # CONFIG_PACKAGE_screen=y
           # CONFIG_PACKAGE_tree=y
           # CONFIG_PACKAGE_vim-fuller=y
-          # CONFIG_PACKAGE_wget=y
+          CONFIG_PACKAGE_wget=y
           EOF
 
           # 取消编译VMware镜像以及镜像填充 (不要删除被缩进的注释符号):
