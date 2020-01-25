@@ -251,11 +251,11 @@ jobs:
 
       - name: Prepare artifact
         run: |
-                # find ./bin/targets/ -type d -name "packages" | xargs rm -rf {}
-                # find ./bin/targets/ -type d -name "tar.gz" | xargs rm -rf {}
+          find ./bin/targets/ -type d -name "packages" | xargs rm -rf {}
+          find ./bin/targets/ -type d -name "tar.gz" | xargs rm -rf {}
 
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
           name: OpenWrt firmware
-          path: ./bin/targets/
+          path: ./bin/
