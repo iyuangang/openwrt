@@ -7,7 +7,7 @@
 # <https://github.com/KFERMercer/OpenWrt-CI>
 # 
 
-name: OpenWrt-CI V2
+name: OpenWrt-CI RaspberryPi3B+
 
 on:
   schedule:
