@@ -155,6 +155,12 @@ jobs:
           # CONFIG_PACKAGE_kmod-usb3=y
           # EOF
           
+          # Language support
+          cat >> .config <<EOF
+          CONFIG_LUCI_LANG_en=y
+          CONFIG_LUCI_LANG_zh-cn=y
+          EOF
+          
           # 启用dnsmasq-full 替换 dnsmasq
           cat >> .config <<EOF
           # CONFIG_PACKAGE_dnsmasq is not set
@@ -173,6 +179,8 @@ jobs:
           # 常用LuCI插件选择:
           cat >> .config <<EOF
           CONFIG_PACKAGE_luci=y
+          CONFIG_PACKAGE_luci-compat=y
+          CONFIG_PACKAGE_luci-lib-ipkg=y
           CONFIG_PACKAGE_luci-app-adbyby-plus=y
           # CONFIG_PACKAGE_luci-app-aria2=y
           # CONFIG_PACKAGE_luci-app-baidupcs-web=y
