@@ -126,9 +126,9 @@ jobs:
           EOF
 
           # 编译UEFI固件:
-          cat >> .config <<EOF
-          CONFIG_EFI_IMAGES=y
-          EOF
+          # cat >> .config <<EOF
+          # CONFIG_EFI_IMAGES=y
+          # EOF
 
           # IPv6支持:
           # cat >> .config <<EOF
@@ -154,9 +154,25 @@ jobs:
           # CONFIG_PACKAGE_kmod-usb2-pci=y
           # CONFIG_PACKAGE_kmod-usb3=y
           # EOF
+          
+          # 启用dnsmasq-full 替换 dnsmasq
+          cat >> .config <<EOF
+          # CONFIG_PACKAGE_dnsmasq is not set
+          CONFIG_PACKAGE_dnsmasq-full=y
+          CONFIG_PACKAGE_dnsmasq_full_dhcp=y
+          CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y
+          CONFIG_PACKAGE_dnsmasq_full_dnssec=y
+          CONFIG_PACKAGE_dnsmasq_full_auth=y
+          CONFIG_PACKAGE_dnsmasq_full_ipset=y
+          CONFIG_PACKAGE_dnsmasq_full_conntrack=y
+          CONFIG_PACKAGE_dnsmasq_full_noid=y
+          CONFIG_PACKAGE_dnsmasq_full_broken_rtc=y
+          CONFIG_PACKAGE_dnsmasq_full_tftp=y
+          EOF
 
           # 常用LuCI插件选择:
           cat >> .config <<EOF
+          CONFIG_PACKAGE_luci=y
           CONFIG_PACKAGE_luci-app-adbyby-plus=y
           # CONFIG_PACKAGE_luci-app-aria2=y
           # CONFIG_PACKAGE_luci-app-baidupcs-web=y
@@ -168,7 +184,6 @@ jobs:
           # CONFIG_PACKAGE_luci-app-openvpn=y
           # CONFIG_PACKAGE_luci-app-openvpn-server=y
           # CONFIG_PACKAGE_luci-app-qbittorrent=y
-          CONFIG_PACKAGE_luci=y
           CONFIG_PACKAGE_luci-app-ssr-plus=y
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Kcptun=y
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Shadowsocks=y
@@ -196,7 +211,7 @@ jobs:
           # 常用软件包:
           cat >> .config <<EOF
           # CONFIG_PACKAGE_curl=y
-          CONFIG_PACKAGE_htop=y
+          # CONFIG_PACKAGE_htop=y
           # CONFIG_PACKAGE_nano=y
           # CONFIG_PACKAGE_screen=y
           # CONFIG_PACKAGE_tree=y
@@ -228,8 +243,8 @@ jobs:
 
       - name: Prepare artifact
         run: |
-          find ./bin/targets/ -type d -name "packages" | xargs rm -rf {}
-          find ./bin/targets/ -type d -name "tar.gz" | xargs rm -rf {}
+                # find ./bin/targets/ -type d -name "packages" | xargs rm -rf {}
+                # find ./bin/targets/ -type d -name "tar.gz" | xargs rm -rf {}
 
       - name: Upload artifact
         uses: actions/upload-artifact@master
