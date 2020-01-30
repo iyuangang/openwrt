@@ -194,6 +194,7 @@ define Device/gehua_ghl-r-001
   DEVICE_TITLE := GeHua GHL-R-001
   DEVICE_PACKAGES := \
 	kmod-mt7603 kmod-mt76x2 kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic
+  DEFAULT := n
 endef
 TARGET_DEVICES += gehua_ghl-r-001
 
@@ -265,7 +266,8 @@ define Device/xiaomi_mir3p
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   IMAGE/factory.bin := append-kernel | pad-to $$(KERNEL_SIZE) | append-ubi | check-size $$$$(IMAGE_SIZE)
   DEVICE_PACKAGES := \
-	kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic uboot-envtools
+	kmod-mt7615e kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic \
+	uboot-envtools
 endef
 TARGET_DEVICES += xiaomi_mir3p
 
@@ -366,13 +368,18 @@ define Device/netgear_r6350
   KERNEL_SIZE := 4096k
   IMAGE_SIZE := 40960k
   UBINIZE_OPTS := -E 5
-  IMAGES += kernel.bin rootfs.bin
+  SERCOMM_HWID := CHJ
+  SERCOMM_HWVER := A001
+  SERCOMM_SWVER := 0x0052
+  IMAGES += factory.img kernel.bin rootfs.bin
+  IMAGE/factory.img := pad-extra 2048k | append-kernel | pad-to 6144k | append-ubi | \
+	pad-to $$$$(BLOCKSIZE) | sercom-footer | pad-to 128 | zip $$$$(DEVICE_MODEL).bin | sercom-seal
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   IMAGE/kernel.bin := append-kernel
   IMAGE/rootfs.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
   DEVICE_TITLE := Netgear R6350
   DEVICE_PACKAGES := \
-	kmod-mt7603 kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic
+	kmod-mt7603 kmod-mt7615e kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic
 endef
 TARGET_DEVICES += netgear_r6350
 
@@ -481,6 +488,7 @@ define Device/ubnt-erx
   KERNEL_INITRAMFS := $$(KERNEL) | ubnt-erx-factory-image $(KDIR)/tmp/$$(KERNEL_INITRAMFS_PREFIX)-factory.tar
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
   DEVICE_TITLE := Ubiquiti EdgeRouter X
+  SUPPORTED_DEVICES += ubiquiti,edgerouterx
 endef
 TARGET_DEVICES += ubnt-erx
 
@@ -489,6 +497,7 @@ define Device/ubnt-erx-sfp
   DTS := UBNT-ERX-SFP
   DEVICE_TITLE := Ubiquiti EdgeRouter X-SFP
   DEVICE_PACKAGES += kmod-i2c-algo-pca kmod-gpio-pca953x kmod-i2c-gpio-custom
+  SUPPORTED_DEVICES += ubiquiti,edgerouterx-sfp
 endef
 TARGET_DEVICES += ubnt-erx-sfp
 

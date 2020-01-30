@@ -8,7 +8,6 @@ define Device/tplink_archer-a7-v5
   DEVICE_PACKAGES := kmod-usb-core kmod-usb2 kmod-usb-ledtrig-usbport kmod-ath10k-ct ath10k-firmware-qca988x-ct
   TPLINK_BOARD_ID := ARCHER-A7-V5
   BOARDNAME := ARCHER-A7-V5
-  SUPPORTED_DEVICES += archer-a7-v5
 endef
 TARGET_DEVICES += tplink_archer-a7-v5
 
@@ -168,6 +167,17 @@ define Device/tplink_cpe210-v3
 endef
 TARGET_DEVICES += tplink_cpe210-v3
 
+define Device/tplink_cpe220-v3
+  $(Device/tplink-safeloader)
+  ATH_SOC := qca9533
+  IMAGE_SIZE := 7680k
+  DEVICE_TITLE := TP-Link CPE220 v3
+  DEVICE_PACKAGES := rssileds
+  TPLINK_BOARD_ID := CPE220V3
+  LOADER_TYPE := elf
+endef
+TARGET_DEVICES += tplink_cpe220-v3
+
 define Device/tplink_archer-d50-v1
   ATH_SOC := qca9531
   DEVICE_TITLE := TP-Link Archer D50 v1
@@ -185,7 +195,6 @@ define Device/tplink_archer-d50-v1
   IMAGES := sysupgrade.bin
   IMAGE/sysupgrade.bin := tplink-v2-image -s -V "ver. 2.0" | \
         append-metadata | check-size $$$$(IMAGE_SIZE)
-  SUPPORTED_DEVICES += archer-d50-v1
 endef
 TARGET_DEVICES += tplink_archer-d50-v1
 
@@ -370,6 +379,6 @@ define Device/tplink_tl-wr2543-v1
   IMAGE/sysupgrade.bin := append-rootfs | mktplinkfw sysupgrade -v 3.13.99 | \
     append-metadata | check-size $$$$(IMAGE_SIZE)
   IMAGE/factory.bin := append-rootfs | mktplinkfw factory -v 3.13.99
-  SUPPORTED_DEVICES += tl-wr2543-v1
+  SUPPORTED_DEVICES += tl-wr2543n
 endef
 TARGET_DEVICES += tplink_tl-wr2543-v1
