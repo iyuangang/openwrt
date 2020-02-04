@@ -114,6 +114,13 @@ jobs:
           CONFIG_TARGET_brcm2708_bcm2710_DEVICE_rpi-3=y
           EOF
 
+          # Disable SQUASHFS:
+          cat >> .config <<EOF
+          # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
+          # CONFIG_TARGET_ROOTFS_SQUASHFS is not set
+          # CONFIG_TARGET_ROOTFS_EXT4FS is not set
+          EOF
+
           # 设置固件大小:
           cat >> .config <<EOF
           CONFIG_TARGET_KERNEL_PARTSIZE=32
@@ -158,7 +165,7 @@ jobs:
           # Language support
           cat >> .config <<EOF
           CONFIG_LUCI_LANG_en=y
-          CONFIG_LUCI_LANG_zh-cn=y
+          CONFIG_LUCI_LANG_zh-Hans=y
           EOF
           
           # 启用dnsmasq-full 替换 dnsmasq
@@ -190,6 +197,7 @@ jobs:
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_V2ray=y
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Kcptun=y
           CONFIG_PACKAGE_luci-app-ssr-plus_INCLUDE_Trojan=y
+          CONFIG_PACKAGE_luci-app-smartdns=y
           # CONFIG_PACKAGE_luci-app-ttyd=y
           # CONFIG_PACKAGE_luci-app-v2ray-server=y
           # CONFIG_PACKAGE_luci-app-verysync=y
