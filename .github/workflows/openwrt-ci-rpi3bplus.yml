@@ -116,6 +116,7 @@ jobs:
 
           # Disable SQUASHFS:
           cat >> .config <<EOF
+          # CONFIG_TARGET_ROOTFS_TARGZ is not set
           # CONFIG_TARGET_ROOTFS_INITRAMFS is not set
           # CONFIG_TARGET_ROOTFS_SQUASHFS is not set
           CONFIG_TARGET_ROOTFS_EXT4FS is not set
@@ -165,7 +166,7 @@ jobs:
           # Language support
           cat >> .config <<EOF
           CONFIG_LUCI_LANG_en=y
-          CONFIG_LUCI_LANG_zh-Hans=y
+          CONFIG_LUCI_LANG_zh_Hans=y
           EOF
           
           # 启用dnsmasq-full 替换 dnsmasq
