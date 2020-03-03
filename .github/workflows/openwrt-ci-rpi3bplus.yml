@@ -242,7 +242,7 @@ jobs:
           find dl -size -1024c -exec rm -f {} \;
 
       - name: Compile firmware
-        run: DEBIAN_FRONTEND=noninteractive make -j$(nproc) V=s
+        run: DEBIAN_FRONTEND=noninteractive make -j$(nproc) || make -j1 V=s
 
       - name: Prepare artifact
         run: |
