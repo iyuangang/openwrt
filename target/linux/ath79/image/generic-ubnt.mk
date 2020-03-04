@@ -101,6 +101,14 @@ define Device/ubnt_bullet-m-xw
 endef
 TARGET_DEVICES += ubnt_bullet-m-xw
 
+define Device/ubnt_picostation-m
+  $(Device/ubnt-xm)
+  DEVICE_TITLE := Ubiquiti Picostation M
+  DEVICE_PACKAGES += rssileds
+  SUPPORTED_DEVICES += bullet-m
+endef
+TARGET_DEVICES += ubnt_picostation-m
+
 define Device/ubnt_rocket-m
   $(Device/ubnt-xm)
   DEVICE_TITLE := Ubiquiti Rocket-M
@@ -108,6 +116,22 @@ define Device/ubnt_rocket-m
   SUPPORTED_DEVICES += rocket-m
 endef
 TARGET_DEVICES += ubnt_rocket-m
+
+define Device/ubnt_nanostation-loco-m
+  $(Device/ubnt-xm)
+  DEVICE_TITLE := Ubiquiti Nanostation Loco M
+  DEVICE_PACKAGES += rssileds
+  SUPPORTED_DEVICES += bullet-m
+endef
+TARGET_DEVICES += ubnt_nanostation-loco-m
+
+define Device/ubnt_nanostation-loco-m-xw
+  $(Device/ubnt-xw)
+  DEVICE_TITLE := Ubiquiti Nanostation Loco M (XW)
+  DEVICE_PACKAGES += rssileds
+  SUPPORTED_DEVICES += loco-m-xw
+endef
+TARGET_DEVICES += ubnt_nanostation-loco-m-xw
 
 define Device/ubnt_nanostation-m
   $(Device/ubnt-xm)
