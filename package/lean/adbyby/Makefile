@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=adbyby
 PKG_VERSION:=2.7
-PKG_RELEASE:=20181023
+PKG_RELEASE:=20200308
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -48,10 +48,10 @@ define Package/$(PKG_NAME)/install
 	$(INSTALL_DATA) ./files/doc/* $(1)/usr/share/adbyby/doc/
 
 ifeq ($(ARCH),mipsel)
-	$(INSTALL_BIN) ./files/7620n/adbyby $(1)/usr/share/adbyby/
+	$(INSTALL_BIN) ./files/mipsle/adbyby $(1)/usr/share/adbyby/
 endif
 ifeq ($(ARCH),mips)
-	$(INSTALL_BIN) ./files/ar71xx/adbyby $(1)/usr/share/adbyby/
+	$(INSTALL_BIN) ./files/mips/adbyby $(1)/usr/share/adbyby/
 endif
 ifeq ($(ARCH),i386)
 	$(INSTALL_BIN) ./files/x86/adbyby $(1)/usr/share/adbyby/
