@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=adbyby
 PKG_VERSION:=2.7
-PKG_RELEASE:=20200307
+PKG_RELEASE:=20200308
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -16,7 +16,7 @@ define Package/$(PKG_NAME)
 	SECTION:=net
 	CATEGORY:=Network
 	TITLE:=Powerful adblock module to block ad.
-	DEPENDS:=@(i386||x86_64||aarch64||arm||mipsel||mips)
+	DEPENDS:=@(x86||x86_64||arm||mipsel||mips||aarch64)
 	URL:=http://www.adbyby.com/
 endef
 
@@ -36,9 +36,6 @@ endif
 ifeq ($(ARCH),i386)
 	ADBYBY_DIR:=x86
 endif
-ifeq ($(ARCH),aarch64)
-	ADBYBY_DIR:=armv7
-endif
 ifeq ($(ARCH),arm)
 	ADBYBY_DIR:=armv7
 	ifeq ($(BOARD),bcm53xx)
@@ -47,6 +44,9 @@ ifeq ($(ARCH),arm)
   ifeq ($(BOARD),kirkwood)
 		ADBYBY_DIR:=arm
   endif
+endif
+ifeq ($(ARCH),aarch64)
+	ADBYBY_DIR:=armv7
 endif
 
 define Build/Prepare
