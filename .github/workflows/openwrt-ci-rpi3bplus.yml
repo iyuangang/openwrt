@@ -249,8 +249,14 @@ jobs:
           find ./bin/targets/ -type d -name "packages" | xargs rm -rf {}
           find ./bin/targets/ -type d -name "tar.gz" | xargs rm -rf {}
 
-      - name: Upload artifact
+      - name: Upload artifact firmware
         uses: actions/upload-artifact@master
         with:
           name: OpenWrt firmware
-          path: ./bin/
+          path: ./bin/targets/
+
+      - name: Upload artifact packages
+        uses: actions/upload-artifact@master
+        with:
+          name: OpenWrt packages
+          path: ./bin/packages/
