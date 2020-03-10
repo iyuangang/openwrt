@@ -59,17 +59,15 @@ o = s:option(Button,"delete",translate("Delete All Subscribe Severs"))
 o.inputstyle = "reset"
 o.description = string.format(translate("Server Count") ..  ": %d", server_count)
 o.write = function()
-uci:delete_all("shadowsocksr", "servers", function(s)
-  if s.hashkey or s.isSubscribe then
+uci:delete_all("shadowsocksr", "servers", function(s) 
+  if s["hashkey"] then
     return true
   else
     return false
   end
 end)
-uci:save("shadowsocksr") 
-uci:commit("shadowsocksr")
-luci.sys.init.stop("shadowsocksr")
-luci.sys.init.start("shadowsocksr")
+uci:save("shadowsocksr")
+luci.sys.call("uci commit shadowsocksr && /etc/init.d/shadowsocksr stop")
 luci.http.redirect(luci.dispatcher.build_url("admin", "services", "shadowsocksr", "servers"))
 return
 end
@@ -102,7 +100,7 @@ end
 
 o = s:option(DummyValue, "server_port", translate("Server Port"))
 function o.cfgvalue(...)
-	return Value.cfgvalue(...) or "N/A"
+	return Value.cfgvalue(...) or "?"
 end
 
 o = s:option(DummyValue, "switch_enable", translate("Auto Switch"))
