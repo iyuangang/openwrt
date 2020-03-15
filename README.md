@@ -16,7 +16,7 @@ This is the stable buildsystem for the `OpenWrt Linux distribution`.
 这是 `OpenWrt Linux 发行版` 稳定版本编译系统。
 
 
-To build your own firmware you need a `Linux`, `BSD` or `MacOS` system (case sensitive filesystem required). `Cygwin` and `Windows linux subsystem` is unsupported because of the lack of a case sensitive file system.
+To build your own firmware you need a `Linux`, `BSD` or `MacOS` system (case sensitive filesystem required). `Cygwin` and `Windows linux subsystem` are unsupported because of the lack of a case sensitive file system.
 
 要构建属于您自己的固件，您需要一个 `Linux` ，`BSD` 或 `MacOS` 系统（需要区分大小写的文件系统）。 由于缺少区分大小写的文件系统，因此不支持 `Cygwin` 和 `Windows linux subsystem`。
 
@@ -34,7 +34,7 @@ You need `gcc`, `binutils`, `bzip2`, `flex`, `python`, `perl`, `make`, `find`, `
 
 3. Run `make menuconfig` to select your preferred configuration for the toolchain, target system & firmware packages.
 
-   运行“ make menuconfig”，为工具链，目标系统和固件包选择首选配置。
+   运行 `make menuconfig` 为工具链，目标系统和固件包选择首选配置。
 
 4. Run `make download -j8 && make -j8 || make -j1 V=s` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the Linux kernel & all chosen applications for your target system.
 
