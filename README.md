@@ -15,6 +15,9 @@ This is the stable buildsystem for the `OpenWrt Linux distribution`.
 
 这是 `OpenWrt Linux 发行版` 稳定版本编译系统。
 
+All released version of my project is used for more than a week, and released after the test is stable.
+
+本项目版本均为使用一周以上，测试稳定后发布。
 
 To build your own firmware you need a `Linux`, `BSD` or `MacOS` system (case sensitive filesystem required). `Cygwin` and `Windows linux subsystem` are unsupported because of the lack of a case sensitive file system.
 
