@@ -10,8 +10,8 @@
 name: OpenWrt-1907 RaspberryPi3B+
 
 on:
-  schedule:
-    - cron: 30 3 * * 3,6
+  # schedule:
+  #   - cron: 30 3 * * 3,6
   push:
     branches: 
       - master

@@ -10,8 +10,8 @@
 name: OpenWrt-1907 x86_64
 
 on:
-  schedule:
-    - cron: 30 1 * * 3,6
+  # schedule:
+  #   - cron: 30 1 * * 3,6
   push:
     branches: 
       - master
