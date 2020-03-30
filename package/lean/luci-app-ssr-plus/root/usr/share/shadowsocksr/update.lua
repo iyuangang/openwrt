@@ -15,7 +15,7 @@ local log = function(...)
 end
 
 log('正在更新【GFW列表】数据库')
-refresh_cmd = "wget-ssl --no-check-certificate -O- " .. uci:get_first('shadowsocksr', 'global', 'gfwlist_url', 'https://cdn.jsdelivr.net/gh/gfwlist/gfwlist/gfwlist.txt') .. " > /tmp/gfw.b64"
+refresh_cmd = "wget-ssl --no-check-certificate -O - " .. uci:get_first('shadowsocksr', 'global', 'gfwlist_url', 'https://cdn.jsdelivr.net/gh/gfwlist/gfwlist/gfwlist.txt') .. " > /tmp/gfw.b64"
 sret = luci.sys.call(refresh_cmd .. " 2>/dev/null")
 if sret == 0 then
 	luci.sys.call("/usr/bin/ssr-gfw")
@@ -25,7 +25,7 @@ if sret == 0 then
 		if tonumber(icount) ~= tonumber(oldcount) then
 			luci.sys.exec("cp -f /tmp/gfwnew.txt /etc/dnsmasq.ssr/gfw_list.conf")
 			luci.sys.exec("cp -f /tmp/gfwnew.txt /tmp/dnsmasq.ssr/gfw_list.conf")
-			log('更新成功！ 新的总纪录数：'.. icount)
+			log('更新成功！ 新的总纪录数：'.. tostring(tonumber(icount)/2))
 		else
 			log('你已经是最新数据，无需更新！')
 		end
