@@ -19,6 +19,8 @@ All released version of my project is used for more than a week, and released af
 
 本项目版本均为使用一周以上，测试稳定后发布。
 
+This project can use `Github Actions` to achieve automatic compilation. Copy the `openwrt-ci-v2.yml` in the directory `.github /workflows/` and rename then modify the content to your own configuration. Note: In order to successfully synchronize the changes after the fork, please do not make any modifications to the original `openwrt-ci-v2.yml`, otherwise it will cause errors in the synchronization upstream.
+
 本项目可利用 `Github Actions` 实现自动编译。拷贝目录 `.github/workflows/` 下的 `openwrt-ci-v2.yml` 重命名并修改内容为自己的配置即可。注意事项：为了顺利同步Fork 后的更改内容，请不要对原版 `openwrt-ci-v2.yml` 做任何修改，否则会导致同步上游出错。
 
 To build your own firmware you need a `Linux`, `BSD` or `MacOS` system (case sensitive filesystem required). `Cygwin` and `Windows linux subsystem` are unsupported because of the lack of a case sensitive file system.
