@@ -19,6 +19,8 @@ All released version of my project is used for more than a week, and released af
 
 本项目版本均为使用一周以上，测试稳定后发布。
 
+本项目可利用 `Github Actions` 实现自动编译。拷贝目录 `.github/workflows/` 下的 `openwrt-ci-v2.yml` 重命名并修改内容为自己的配置即可。注意事项：为了顺利同步Fork 后的更改内容，请不要对原版 `openwrt-ci-v2.yml` 做任何修改，否则会导致同步上游出错。
+
 To build your own firmware you need a `Linux`, `BSD` or `MacOS` system (case sensitive filesystem required). `Cygwin` and `Windows linux subsystem` are unsupported because of the lack of a case sensitive file system.
 
 要构建属于您自己的固件，您需要一个 `Linux` ，`BSD` 或 `MacOS` 系统（需要区分大小写的文件系统）。 由于缺少区分大小写的文件系统，因此不支持 `Cygwin` 和 `Windows linux subsystem`。
