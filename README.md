@@ -43,9 +43,9 @@ You need `gcc`, `binutils`, `bzip2`, `flex`, `python`, `perl`, `make`, `find`, `
 
    运行 `make menuconfig` 为工具链，目标系统和固件包选择首选配置。
 
-4. Run `make download -j8 && make -j8 || make -j1 V=s` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the Linux kernel & all chosen applications for your target system.
+4. Run `make download -j8 && make -j$(nproc) || make -j1 V=s` to build your firmware. This will download all sources, build the cross-compile toolchain and then cross-compile the Linux kernel & all chosen applications for your target system.
 
-   运行`make download -j8 && make -j8 || make -j1 V=s`来构建固件。 这将下载所有源代码，构建交叉编译工具链，然后交叉编译目标系统的Linux内核和所有选定的应用程序。
+   运行`make download -j8 && make -j$(nproc) || make -j1 V=s`来构建固件。 这将下载所有源代码，构建交叉编译工具链，然后交叉编译目标系统的Linux内核和所有选定的应用程序。
 
 Sunshine!
 	Your [OpenWrt](http://www.openwrt.org) Community
