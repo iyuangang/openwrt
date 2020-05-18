@@ -60,16 +60,16 @@ jobs:
           mkdir openwrt-packages
           cd openwrt-packages
           # add OpenClash
-          git clone https://github.com/vernesong/OpenClash
+          git clone --branch master https://github.com/vernesong/OpenClash
           mv OpenClash/luci-app-openclash/ .
           rm -rf OpenClash/
-          mkdir -p base-files/files/etc/clash
-          wget -qO- https://github.com/Dreamacro/clash/releases/download/v0.20.0/clash-linux-amd64-v0.20.0.gz | gunzip -c > base-files/files/etc/clash/clash
-          chmod +x base-files/files/etc/clash/clash
-          mkdir -p base-files/files/etc/openclash/core
-          cp base-files/files/etc/clash/clash base-files/files/etc/openclash/core/
-          mkdir -p base-files/files/usr/share/clash
-          echo 0.20.0 > base-files/files/usr/share/clash/core_version
+          mkdir -p ../base-files/files/etc/clash
+          wget -qO- https://github.com/Dreamacro/clash/releases/download/v0.20.0/clash-linux-amd64-v0.20.0.gz | gunzip -c > ../base-files/files/etc/clash/clash
+          chmod +x ../base-files/files/etc/clash/clash
+          mkdir -p ../base-files/files/etc/openclash/core
+          cp ../base-files/files/etc/clash/clash ../base-files/files/etc/openclash/core/
+          mkdir -p ../base-files/files/usr/share/clash
+          echo 0.20.0 > ../base-files/files/usr/share/clash/core_version
           # add argon theme
           rm -rf ../lean/luci-theme-argon
           git clone --branch 19.07_stable https://github.com/jerrykuku/luci-theme-argon.git
