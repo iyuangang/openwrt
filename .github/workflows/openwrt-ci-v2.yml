@@ -72,7 +72,7 @@ jobs:
           echo 0.20.0 > ../base-files/files/usr/share/clash/core_version
           # add argon theme
           rm -rf ../lean/luci-theme-argon
-          git clone --branch 19.07_stable https://github.com/jerrykuku/luci-theme-argon.git
+          git clone https://github.com/jerrykuku/luci-theme-argon.git
           # add luci-app-omcproxy
           git clone https://github.com/riverscn/luci-app-omcproxy
           # add Smartdns & luci-app-smartdns
@@ -279,7 +279,7 @@ jobs:
           cat >> .config <<EOF
           CONFIG_PACKAGE_luci-theme-argon=y
           CONFIG_PACKAGE_luci-theme-material=y
-          CONFIG_PACKAGE_luci-theme-rosy=y
+          #CONFIG_PACKAGE_luci-theme-rosy=y
           EOF
 
           # 常用软件包:
