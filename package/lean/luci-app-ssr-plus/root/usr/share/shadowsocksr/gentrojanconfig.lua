@@ -3,7 +3,9 @@ local json = require "luci.jsonc"
 local server_section = arg[1]
 local proto = arg[2]
 local local_port = arg[3]
+
 local server = ucursor:get_all("shadowsocksr", server_section)
+
 local trojan = {
 	log_level = 3,
 	run_type = proto,
@@ -26,13 +28,13 @@ local trojan = {
 		curve = "",
 		reuse_session = true,
 		session_ticket = false,
-	},
-	tcp = {
-		no_delay = true,
-		keep_alive = true,
-		reuse_port = true,
-		fast_open = (server.fast_open == "1") and true or false,
-		fast_open_qlen = 20
-	}
+		},
+		tcp = {
+			no_delay = true,
+			keep_alive = true,
+			reuse_port = true,
+			fast_open = (server.fast_open == "1") and true or false,
+			fast_open_qlen = 20
+		}
 }
 print(json.stringify(trojan, 1))

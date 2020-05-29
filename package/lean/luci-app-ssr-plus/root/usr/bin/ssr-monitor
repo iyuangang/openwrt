@@ -10,14 +10,17 @@ LOCK_FILE="/var/lock/ssr-monitor.lock"
 [ -f "$LOCK_FILE" ] && exit 2
 touch "$LOCK_FILE"
 NAME=shadowsocksr
+
 uci_get_by_name() {
 	local ret=$(uci get $NAME.$1.$2 2>/dev/null)
 	echo ${ret:=$3}
 }
+
 uci_get_by_type() {
 	local ret=$(uci get $NAME.@$1[0].$2 2>/dev/null)
 	echo ${ret:=$3}
 }
+
 get_host_ip() {
 	local host=$1
 	local isip=""
@@ -32,8 +35,9 @@ get_host_ip() {
 			[ -z "$ip" ] && ip=$(wget -q -O- http://119.29.29.29/d?dn=$1 | awk -F ';' '{print $1}')
 		fi
 	fi
-	echo ${ip:="127.0.0.1"}
+	echo ${ip:="ERROR"}
 }
+
 server_process_count=$1
 redir_tcp_process=$2
 redir_udp_process=$3
@@ -47,12 +51,13 @@ fi
 i=0
 GLOBAL_SERVER=$(uci_get_by_type global global_server)
 server=$(get_host_ip $(uci_get_by_name $GLOBAL_SERVER server))
-[ "$server" == "127.0.0.1" ] && hostip=$(uci_get_by_name $GLOBAL_SERVER ip)
+[ "$server" == "ERROR" ] && hostip=$(uci_get_by_name $GLOBAL_SERVER ip)
 lkcp_port=$(uci_get_by_name $GLOBAL_SERVER kcp_port)
 server_port=$(uci_get_by_name $GLOBAL_SERVER server_port)
 password=$(uci_get_by_name $GLOBAL_SERVER kcp_password)
 kcp_param=$(uci_get_by_name $GLOBAL_SERVER kcp_param)
 [ "$password" != "" ] && password="--key "${password}
+
 while [ "1" == "1" ]; do #死循环
 	sleep 30s
 	#redir tcp
@@ -128,7 +133,7 @@ while [ "1" == "1" ]; do #死循环
 			else
 				kill -9 $(ps | grep pdnsd | grep -v grep | awk '{print $1}') >/dev/null 2>&1
 			fi
-			(/usr/sbin/pdnsd -c /var/etc/pdnsd.conf &)
+			(/usr/sbin/pdnsd -c /var/etc/pdnsd.conf >/dev/null 2>&1 &)
 		fi
 	fi
 	#dns2socks

@@ -7,6 +7,7 @@
 # This is free software, licensed under the GNU General Public License v3.
 # See /LICENSE for more information.
 #
+
 START=95
 STOP=15
 SERVICE_DAEMONIZE=1
@@ -30,26 +31,32 @@ switch_enable=0
 switch_server=$1
 CRON_FILE=/etc/crontabs/root
 threads=1
+
 uci_get_by_name() {
 	local ret=$(uci get $NAME.$1.$2 2>/dev/null)
 	echo ${ret:=$3}
 }
+
 uci_get_by_type() {
 	local ret=$(uci get $NAME.@$1[0].$2 2>/dev/null)
 	echo ${ret:=$3}
 }
+
 uci_set_by_name() {
 	uci set $NAME.$1.$2=$3 2>/dev/null
 	uci commit $NAME
 }
+
 uci_set_by_type() {
 	uci set $NAME.@$1[0].$2=$3 2>/dev/null
 	uci commit $NAME
 }
+
 uci_get_by_cfgid() {
 	local ret=$(uci show $NAME.@$1[0].$2 | awk -F '.' '{print $2}' 2>/dev/null)
 	echo ${ret:=$3}
 }
+
 get_host_ip() {
 	local host=$1
 	local isip=""
@@ -63,26 +70,30 @@ get_host_ip() {
 			[ -z "$ip" ] && ip=$(wget -q -O- http://119.29.29.29/d?dn=$1 | awk -F ';' '{print $1}')
 		fi
 	fi
-	echo ${ip:="127.0.0.1"}
+	echo ${ip:="ERROR"}
 }
+
 clean_log() {
 	logsnum=$(cat /tmp/ssrplus.log 2>/dev/null | wc -l)
 	[ "$logsnum" -gt 1000 ] && {
-		echo "$(date "+%Y-%m-%d %H:%M:%S") 鏃ュ織鏂囦欢杩囬暱锛屾竻绌哄鐞嗭紒" >/tmp/ssrplus.log
+		echo "$(date "+%Y-%m-%d %H:%M:%S") 日志文件过长，清空处理！" >/tmp/ssrplus.log
 	}
 }
+
 add_cron() {
 	touch $CRON_FILE
 	sed -i '/shadowsocksr/d' $CRON_FILE
 	[ $(uci_get_by_type server_subscribe auto_update 0) -eq 1 ] && echo "0 $(uci_get_by_type server_subscribe auto_update_time) * * * /usr/share/shadowsocksr/ssrplusupdate.sh >>/tmp/ssrplus.log 2>&1" >>$CRON_FILE
 	crontab $CRON_FILE
 }
+
 del_cron() {
 	sed -i '/shadowsocksr/d' $CRON_FILE
 	sed -i '/ssrplus.log/d' $CRON_FILE
 	/etc/init.d/cron restart
 	clean_log
 }
+
 unlock() {
 	failcount=1
 	while [ "$failcount" -le 10 ]; do
@@ -95,6 +106,7 @@ unlock() {
 		fi
 	done
 }
+
 find_bin() {
 	case "$1" in
 	ss) ret="/usr/bin/ss-redir" ;;
@@ -108,9 +120,10 @@ find_bin() {
 	esac
 	echo $ret
 }
+
 gen_config_file() {
 	local hostip=$(get_host_ip $(uci_get_by_name $1 server))
-	if [ "$hostip" == "127.0.0.1" ]; then
+	if [ "$hostip" == "ERROR" ]; then
 		hostip=$(uci_get_by_name $1 ip)
 	else
 		uci_set_by_name $1 ip $hostip
@@ -182,6 +195,7 @@ gen_config_file() {
 		;;
 	esac
 }
+
 gen_service_file() {
 	if [ $(uci_get_by_name $1 fast_open) == "1" ]; then
 		fastopen="true"
@@ -203,6 +217,7 @@ gen_service_file() {
 		}
 	EOF
 }
+
 gen_serv_include() {
 	FWI=$(uci get firewall.shadowsocksr.path 2>/dev/null)
 	[ -n "$FWI" ] || return 0
@@ -221,6 +236,7 @@ gen_serv_include() {
 		EOT
 	EOF
 }
+
 start_dns() {
 	local ssr_dns="$(uci_get_by_type global pdnsd_enable 0)"
 	local dnsstr="$(uci_get_by_type global tunnel_forward 8.8.4.4:53)"
@@ -265,7 +281,7 @@ start_dns() {
 			purge_cache=off;
 			}
 		EOF
-		/usr/sbin/pdnsd -c /var/etc/pdnsd.conf &
+		/usr/sbin/pdnsd -c /var/etc/pdnsd.conf >/dev/null 2>&1 &
 	}
 	if [ "$ssr_dns" != "0" ]; then
 		case "$run_mode" in
@@ -286,6 +302,7 @@ start_dns() {
 		;;
 	esac
 }
+
 start_redir_tcp() {
 	local type=$(uci_get_by_name $GLOBAL_SERVER type)
 	local bin=$(find_bin $type)
@@ -354,6 +371,7 @@ start_redir_tcp() {
 	esac
 	return 0
 }
+
 start_redir_udp() {
 	if [ -n "$UDP_RELAY_SERVER" ]; then
 		local type=$(uci_get_by_name $UDP_RELAY_SERVER type)
@@ -400,6 +418,7 @@ start_redir_udp() {
 	fi
 	return 0
 }
+
 start_shunt() {
 	if [ "$NETFLIX_SERVER" != "nil" ] && [ "$NETFLIX_SERVER" != "$GLOBAL_SERVER" ]; then
 		local type=$(uci_get_by_name $NETFLIX_SERVER type)
@@ -454,6 +473,7 @@ start_shunt() {
 	fi
 	return 0
 }
+
 start_local() {
 	local local_server=$(uci_get_by_type socks5_proxy server nil)
 	[ "$local_server" == "nil" ] && return 1
@@ -492,6 +512,7 @@ start_local() {
 	local_enable=1
 	return 0
 }
+
 start_server() {
 	SERVER_ENABLE=$(uci_get_by_type server_global enable_server 0)
 	[ "$SERVER_ENABLE" == "0" ] && return 0
@@ -525,6 +546,7 @@ start_server() {
 	gen_serv_include
 	return 0
 }
+
 start_switch() {
 	if [ "$(uci_get_by_type global enable_switch 0)" == "1" ]; then
 		if [ -z "$switch_server" ]; then
@@ -535,6 +557,7 @@ start_switch() {
 		fi
 	fi
 }
+
 start_monitor() {
 	if [ $(uci_get_by_type global monitor_enable 1) == "1" ]; then
 		let total_count=server_count+redir_tcp+redir_udp+tunnel_enable+kcp_enable_flag+local_enable+pdnsd_enable_flag+switch_enable
@@ -543,6 +566,7 @@ start_monitor() {
 		fi
 	fi
 }
+
 check_server() {
 	ENABLE_SERVER=$(uci_get_by_type global global_server nil)
 	if [ "$ENABLE_SERVER" == "nil" ]; then
@@ -560,6 +584,7 @@ check_server() {
 		fi
 	fi
 }
+
 start_rules() {
 	local server=$(get_host_ip $(uci_get_by_name $GLOBAL_SERVER server))
 	[ "$server" == "127.0.0.1" ] && hostip=$(uci_get_by_name $GLOBAL_SERVER ip)
@@ -634,6 +659,7 @@ start_rules() {
 	$(get_arg_out) $gfwmode $ARG_UDP
 	return $?
 }
+
 rules() {
 	if [ "$GLOBAL_SERVER" == "nil" ]; then
 		return 1
@@ -651,6 +677,7 @@ rules() {
 		return 1
 	fi
 }
+
 start() {
 	[ -f "$LOCK_FILE" ] && exit 2
 	touch "$LOCK_FILE"
@@ -698,9 +725,11 @@ start() {
 	echo "------------end------------" >>/tmp/ssrplus.log
 	rm -f $LOCK_FILE
 }
+
 boot() {
 	(/usr/share/shadowsocksr/chinaipset.sh && sleep 3 && start >/dev/null 2>&1) &
 }
+
 stop() {
 	unlock
 	/usr/bin/ssr-rules -f

@@ -1,22 +1,30 @@
 require "luci.ip"
 require "nixio.fs"
 local m, s, o
+
 m = Map("shadowsocksr", translate("IP black-and-white list"))
+
 s = m:section(TypedSection, "access_control")
 s.anonymous = true
+
 -- Part of WAN
 s:tab("wan_ac", translate("WAN IP AC"))
+
 o = s:taboption("wan_ac", DynamicList, "wan_bp_ips", translate("WAN White List IP"))
 o.datatype = "ip4addr"
+
 o = s:taboption("wan_ac", DynamicList, "wan_fw_ips", translate("WAN Force Proxy IP"))
 o.datatype = "ip4addr"
+
 -- Part of LAN
 s:tab("lan_ac", translate("LAN IP AC"))
+
 o = s:taboption("lan_ac", ListValue, "lan_ac_mode", translate("LAN Access Control"))
 o:value("0", translate("Disable"))
 o:value("w", translate("Allow listed only"))
 o:value("b", translate("Allow all except listed"))
 o.rmempty = false
+
 o = s:taboption("lan_ac", DynamicList, "lan_ac_ips", translate("LAN Host List"))
 o.datatype = "ipaddr"
 luci.ip.neighbors({ family = 4 }, function(entry)
@@ -26,6 +34,7 @@ luci.ip.neighbors({ family = 4 }, function(entry)
 end)
 o:depends("lan_ac_mode", "w")
 o:depends("lan_ac_mode", "b")
+
 o = s:taboption("lan_ac", DynamicList, "lan_bp_ips", translate("LAN Bypassed Host List"))
 o.datatype = "ipaddr"
 luci.ip.neighbors({ family = 4 }, function(entry)
@@ -33,6 +42,7 @@ luci.ip.neighbors({ family = 4 }, function(entry)
 		o:value(entry.dest:string())
 	end
 end)
+
 o = s:taboption("lan_ac", DynamicList, "lan_fp_ips", translate("LAN Force Proxy Host List"))
 o.datatype = "ipaddr"
 luci.ip.neighbors({ family = 4 }, function(entry)
@@ -40,6 +50,7 @@ luci.ip.neighbors({ family = 4 }, function(entry)
 		o:value(entry.dest:string())
 	end
 end)
+
 o = s:taboption("lan_ac", DynamicList, "lan_gm_ips", translate("Game Mode Host List"))
 o.datatype = "ipaddr"
 luci.ip.neighbors({ family = 4 }, function(entry)
@@ -47,6 +58,7 @@ luci.ip.neighbors({ family = 4 }, function(entry)
 		o:value(entry.dest:string())
 	end
 end)
+
 -- Part of Self
 -- s:tab("self_ac", translate("Router Self AC"))
 -- o = s:taboption("self_ac",ListValue, "router_proxy", translate("Router Self Proxy"))
@@ -54,6 +66,7 @@ end)
 -- o:value("0", translatef("Bypassed Proxy"))
 -- o:value("2", translatef("Forwarded Proxy"))
 -- o.rmempty = false
+
 s:tab("esc", translate("Bypass Domain List"))
 local escconf = "/etc/ssr/white.list"
 o = s:taboption("esc", TextValue, "escconf")
@@ -69,6 +82,7 @@ end
 o.remove = function(self, section, value)
 	nixio.fs.writefile(escconf, "")
 end
+
 s:tab("block", translate("Black Domain List"))
 local blockconf = "/etc/ssr/black.list"
 o = s:taboption("block", TextValue, "blockconf")
@@ -99,6 +113,7 @@ end
 o.remove = function(self, section, value)
 	nixio.fs.writefile(netflixconf, "")
 end
+
 s:tab("netflixip", translate("Netflix IP List"))
 local netflixipconf = "/etc/ssr/netflixip.list"
 o = s:taboption("netflixip", TextValue, "netflixipconf")
@@ -114,4 +129,5 @@ end
 o.remove = function(self, section, value)
 	nixio.fs.writefile(netflixipconf, "")
 end
+
 return m

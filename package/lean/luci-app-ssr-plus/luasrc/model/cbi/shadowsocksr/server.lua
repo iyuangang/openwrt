@@ -28,6 +28,7 @@ local encrypt_methods = {
 "chacha20",
 "chacha20-ietf",
 }
+
 local protocol = {
 "origin",
 "verify_deflate",
@@ -36,6 +37,7 @@ local protocol = {
 "auth_aes128_md5",
 "auth_chain_a",
 }
+
 obfs = {
 "plain",
 "http_simple",
@@ -44,12 +46,15 @@ obfs = {
 "tls1.2_ticket_auth",
 "tls1.2_ticket_fastauth",
 }
+
 m = Map(shadowsocksr)
 -- [[ Global Setting ]]--
 sec = m:section(TypedSection, "server_global", translate("Global Setting"))
 sec.anonymous = true
+
 o = sec:option(Flag, "enable_server", translate("Enable Server"))
 o.rmempty = false
+
 -- [[ Server Setting ]]--
 sec = m:section(TypedSection, "server_config", translate("Server Setting"))
 sec.anonymous = true
@@ -63,34 +68,42 @@ function sec.create(...)
 		return
 	end
 end
+
 o = sec:option(Flag, "enable", translate("Enable"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or translate("0")
 end
 o.rmempty = false
+
 o = sec:option(DummyValue, "type", translate("Server Type"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "ssr"
 end
+
 o = sec:option(DummyValue, "server_port", translate("Server Port"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "-"
 end
+
 o = sec:option(DummyValue, "username", translate("Username"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "-"
 end
+
 o = sec:option(DummyValue, "encrypt_method", translate("Encrypt Method"))
 function o.cfgvalue(...)
 	local v = Value.cfgvalue(...)
 	return v and v:upper() or "-"
 end
+
 o = sec:option(DummyValue, "protocol", translate("Protocol"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "-"
 end
+
 o = sec:option(DummyValue, "obfs", translate("Obfs"))
 function o.cfgvalue(...)
 	return Value.cfgvalue(...) or "-"
 end
+
 return m
