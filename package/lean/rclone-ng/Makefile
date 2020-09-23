@@ -10,7 +10,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rclone-ng
-PKG_VERSION:=0.2.4
+PKG_VERSION:=0.5.0
 PKG_RELEASE:=1
 
 
@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/package.mk
 PKG_SOURCE:=RcloneNg-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://github.com/ElonH/RcloneNg/releases/download/v$(PKG_VERSION)/
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
-PKG_HASH:=3090a713253b17bfbb4d6a69b4b55b81d69e1768cf56d3abca8631e4a35f270b
+PKG_HASH:=0b4916ddd0bacb5b358dc8d36b64c30f4182c0ace3eb06cda94b6578c419dcd9
 
 define Package/$(PKG_NAME)
 	SECTION:=net
